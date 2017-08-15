@@ -1,0 +1,68 @@
+{% extends "admin/admin.html" %}
+
+{% block content %}
+
+<section class="content-header">
+    <h1>微电影管理系统</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 标签管理</a></li>
+        <li class="active">修改标签</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">修改标签</h3>
+                </div>
+                <form role="form" method="POST" action="">
+                    <div class="box-body">
+                        <!--flash message-->
+                        {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                            <div class="alert alert-success alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">&times;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                {{msg}}
+                            </div>
+                        {% endfor %}
+                        {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">&times;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                {{msg}}
+                            </div>
+                        {% endfor %}
+                        <!--flash message-->
+                        <div class="form-group">
+                            <label for="input_name">{{ form.name.label }}</label>
+                            {{ form.name(value=tag.name) }}
+                            <input name="id", value="{{ tag.id }}" type="hidden">
+                            {% for error in form.name.errors %}
+                                <div class="col-md-12">
+                                    <font style="color:red">{{ error }}</font>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        {{ form.csrf_token }}
+                        {{ form.submit }}
+                        &nbsp;&nbsp;
+                        <a class="btn btn-success btn-sm" href="{{ url_for('admin.tag_list', page=1) }}"
+                           role="button">返回
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+$(document).ready(function(){
+    $("#sidebar-2").addClass("active");
+    $("#sidebar-2-2").addClass("active");
+});
+</script>
+{% endblock %}
