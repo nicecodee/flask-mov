@@ -26,7 +26,7 @@ def user_login_required(func):
     return wrapper
 
 
-# 修改文件名称
+# 功能函数：修改文件名
 def change_filename(filename):
     file_extention = (os.path.splitext(filename))[1]  # 分离文件的路径，获取文件扩展名
     filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + \
