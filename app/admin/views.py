@@ -220,6 +220,7 @@ def tag_edit(id):
 def movie_add():
     form = MovieForm()
 
+
     # 添加/删除电影的标签后，实时更新到"添加电影"的标签下拉列表中
     form.tag_id.choices = [(v.id, v.name) for v in Tag.query.all()]
 
@@ -227,19 +228,15 @@ def movie_add():
         data = form.data
         file_url = secure_filename(form.url.data.filename)
         file_logo = secure_filename(form.logo.data.filename)
-        # print("原始文件名：", form.url.data.filename)
-        # print("原始文件名：", form.logo.data.filename)
-        # print("secure文件名：", file_url)
-        # print("secure文件名：", file_logo)
         if not os.path.exists(UP_DIR):
             os.makedirs(UP_DIR)
             os.chmod(UP_DIR, "rw")
         url = change_filename(file_url)
         logo = change_filename(file_logo)
-        # print("changed文件名：", url)
-        # print("changed文件名：",logo)
-        form.url.data.save(UP_DIR + url)
-        form.logo.data.save(UP_DIR + logo)
+        url_save_result = form.url.data.save(UP_DIR + url)
+        logo_save_result = form.logo.data.save(UP_DIR + logo)
+        print("url_save_result: ", url_save_result)
+        print("logo_save_result: ", logo_save_result)
 
         movie = Movie(
             title=data.get('title'),
@@ -287,6 +284,8 @@ def movie_del(id=None, page=None, filename=None):
     # 删除对应的已上传的影片和海报
     file_url = UP_DIR + movie.url
     file_logo = UP_DIR + movie.logo
+    print("file_url_remove: ", file_url)
+    print("file_logo_remove: ", file_logo)
     os.remove(file_url)
     os.remove(file_logo)
 
@@ -703,6 +702,10 @@ def role_edit(id):
 
     # 添加/删除权限的标签后，实时更新到"修改角色"的权限下拉列表中
     form.auths.choices = [(v.id, v.name) for v in Auth.query.all()]
+    # 如果当前权限列表为空，则提示
+    if len(form.auths.choices) == 0:
+        flash("当前权限列表为空，请先添加权限，再编辑角色！", "err")
+        return redirect(url_for('admin.role_list', page=1))
 
     #由于auths在页面中是个多选框，没办法在role_edit.html中赋值，因此提前获取并赋值给表单
     if request.method == "GET":

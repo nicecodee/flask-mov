@@ -39,8 +39,3 @@ app.register_blueprint(admin_blueprint, url_prefix='/admin')
 def page_not_found(error):
     return render_template("home/404.html")
 
-
-if __name__ == '__main__':
-    app.run()
-
-

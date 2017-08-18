@@ -35,6 +35,7 @@ def change_filename(filename):
 
 
 # 首页
+@home.route("/", methods=["GET"])
 @home.route("/<int:page>/", methods=["GET"])
 def index(page=None):
     if page == None:
@@ -315,11 +316,6 @@ def video(id=None, page=None):
         Movie.id == movie.id, User.id == Comment.user_id).order_by(
         Comment.addtime.desc()).paginate(page=page, per_page=3)
 
-    #电影播放数加1并更新数据库（每进入一次play页面，相当于播放了一次电影）
-    movie.playnum = movie.playnum + 1
-    db.session.add(movie)
-    db.session.commit()
-
     #获取评论相关信息并存入数据库
     form = CommentForm()
     if form.validate_on_submit():
@@ -339,6 +335,11 @@ def video(id=None, page=None):
         db.session.add(movie)
         db.session.commit()
         return redirect(url_for('home.video', id=movie.id, page=1))
+
+    #电影播放数加1并更新数据库（每进入一次play页面，相当于播放了一次电影）
+    movie.playnum = movie.playnum + 1
+    db.session.add(movie)
+    db.session.commit()
     return render_template("home/video.html", movie=movie, form=form, page_data=page_data)
 
 

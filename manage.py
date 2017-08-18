@@ -1,10 +1,5 @@
 # encoding: utf8
 
-# from app import app
-#
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from app import app
@@ -20,4 +15,6 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 if __name__ == "__main__":
-    manager.run()
+    # manager.run()   #管理数据库时使用
+    app.run()         #作为程序入口时使用
+

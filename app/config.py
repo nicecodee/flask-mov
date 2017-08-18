@@ -17,13 +17,12 @@ DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME,
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+
 #上传文件目录
-# UP_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__))),"static/uploads/"
-UP_DIR = "static/uploads/"
+UP_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "static/uploads/")
 
 #会员头像目录
-# UP_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__))),"static/uploads/"
-FACE_DIR = "static/uploads/users/"
+FACE_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), "static/uploads/users/")
 
 #redis配置
 REDIS_URL="redis://127.0.0.1:6379/0"

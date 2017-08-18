@@ -43,7 +43,7 @@ class Userlog(db.Model):
 class Tag(db.Model):
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True)  # 编号
-    name = db.Column(db.String(100), unique=True)  # 标题
+    name = db.Column(db.String(80), unique=True)  # 标题
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 添加时间
     movies = db.relationship("Movie", backref='tag')  # 电影外键关系关联
 
@@ -196,8 +196,8 @@ if __name__ == "__main__":
     from werkzeug.security import generate_password_hash
 
     admin = Admin(
-        name="xuan",
-        pwd=generate_password_hash("ssssss"),
+        name="admin",
+        pwd=generate_password_hash("123456"),
         is_super=1,
         role_id=1
     )
